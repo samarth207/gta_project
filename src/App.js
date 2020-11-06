@@ -6,7 +6,7 @@ import Home from './components/home'
 import Visualiser from './components/visualiser'
 import Finder  from './components/finder'
 import Covid from './components/covid'
-
+import Game from './components/game'
 
 class App extends PureComponent {
   render() {
@@ -18,6 +18,7 @@ class App extends PureComponent {
           <Route exact path="/visualiser" component={Visualiser} />
           <Route exact path="/path_finder" component={Finder} />
           <Route exact path="/covid_simulation" component={Covid} />
+          <Route exact path="/game_coloring" component={Game} />
         </div>
       </Router>
     )

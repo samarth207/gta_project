@@ -27,6 +27,7 @@ class Header extends Component {
               <Nav>
                 <Nav.Link eventKey={1} href = '/visualiser'>Algo Visualiser</Nav.Link>  
                 <Nav.Link eventKey={2} href = '/path_finder'>Path Finder</Nav.Link>                 
+                <Nav.Link eventKey={2} href='/game_coloring'>Coloring Game</Nav.Link>                 
                 <Nav.Link eventKey={3} href= '/covid_simulation'>Covid Simulation</Nav.Link>
               </Nav>
           </Navbar.Collapse>

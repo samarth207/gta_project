@@ -11,9 +11,9 @@ class Covid extends Component {
             count: 0,
             height : 550,
             width : 1000,
-            gamma: '',
-            dist : 500,
-            beta: ''
+            gamma: 1,
+            dist : 1000,
+            beta: 1
         }
         this.updateVertices = this.updateVertices.bind(this);
         this.onChangeNodes = this.onChangeNodes.bind(this);
@@ -80,7 +80,7 @@ class Covid extends Component {
             var jump2 = Math.floor(randm)
             randm = Math.random() * 4
             randm = Math.floor(randm)
-
+        
             if (randm === 0) {
                 if (vertices[i].x < this.state.width + 50)
                     vertices[i].x += jump1
@@ -113,18 +113,33 @@ class Covid extends Component {
 
     updateEdges() {
         var vertices = this.state.vertices;
+        var edges = [];
         for (var i = 0; i < vertices.length; i++) {
-            if (vertices[i].color === "red") {
+            if (vertices[i].color !== "green") {
                 for (var j = 0; j < vertices.length; j++) {
-                    if (vertices[j].color === "green") {
+                    if (vertices[j].color !== "red") {
                         if (Math.abs(vertices[i].x - vertices[j].x) * Math.abs(vertices[i].x - vertices[j].x) + Math.abs(vertices[i].y - vertices[j].y) * Math.abs(vertices[i].y - vertices[j].y) <= this.state.dist) {
-                            vertices[j].color = "yellow";
+                            var prob = Math.floor(Math.random() * 5);
+                            if(this.state.beta>=prob){
+                                var edge = {
+                                    v: i,
+                                    u: j
+                                }
+                                vertices[j].color = "yellow";
+                                edges.push(edge)
+                            }
                         }
+                    }
+                }
+                if (vertices[i].color === "yellow") {
+                    prob = Math.floor(Math.random() * 100);
+                    if (this.state.gamma > prob) {
+                        vertices[i].color = "blue"
                     }
                 }
             }
         }
-        this.setState({ vertices: vertices });
+        this.setState({ edges: edges });
     }
 
     render() {
@@ -164,6 +179,9 @@ class Covid extends Component {
             height: "30px",
             width : "75%"
         }
+
+        const {vertices} = this.state
+
         return (
             <div className = "covid my-2 ml-3">
                 <div className = "parameter " style = {parameterCss}>
@@ -196,7 +214,7 @@ class Covid extends Component {
                             />
                         </div>
                         <div className="form-group" >
-                            <label >Beta (Susceptible to Infected)</label>
+                            <label >Beta (Conversion to Susceptible)</label>
                             <input
                                 type="number"
                                 className="form-control"
@@ -208,7 +226,7 @@ class Covid extends Component {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Gamma (Infected to Recoverable)</label>
+                            <label>Gamma (Conversion to Recoverable)</label>
                             <input
                                 type="number"
                                 className="form-control"
@@ -221,10 +239,22 @@ class Covid extends Component {
                         </div>
                         <div>
                             <button className="btn" style={{
+                                backgroundColor: "#f8fcf5",
+                                color: "black",
+                                width: "75%",
+                                fontSize: "15px",
+                            }}
+                                onClick={() => window.location.reload()}
+                            >
+                                Clear board
+                            </button>
+                        </div>
+                        <div>
+                            <button className="btn" style={{
                                 backgroundColor: "#effce8",
                                 color: "black",
                                 width: "90%",
-                                marginTop : "30px",
+                                marginTop : "20px",
                                 borderRadius: "0px 20px 20px 0px"
                             }}
                                 onClick={() => this.OnSimulate()}
@@ -235,17 +265,38 @@ class Covid extends Component {
                     </div> 
                 </div>
                 <div className="info" style={infoCss}>
-
+                    <div style={{ color: "#a2c48d", fontSize: "20px", textAlign: "center" }}>
+                        Color assigned
+                    </div>
+                    <div style={{
+                        width: "90%",
+                        paddingLeft: "20px",
+                        paddingRight : "20px",
+                        color: "#733f2c",
+                        fontSize : "18px",
+                    }}>
+                        Unexposed :  <span style = {{color : "green", fontWeight : "bold", float : "right"}}>Green</span><br/> 
+                        Infected : <span style={{ color: "red", fontWeight: "bold",float: "right" }}>Red</span><br /> 
+                        Susceptible : <span style={{ color: "yellow", fontWeight: "bold", float: "right" }}>Yellow</span><br /> 
+                        Recovered :  <span style={{ color: "blue", fontWeight: "bold", float: "right" }}>Blue</span><br /> 
+                    </div>
                 </div>
                 <div className = "simulator" style = {simulatorCss}>
                     <div style={{ color: "#a2c48d", fontSize: "25px", textAlign: "center" }}>
                         Simulation
                     </div>
                     <svg width="100%" height="80vh">
-                        {this.state.vertices ? (
-                            this.state.vertices.map((data, index) => (
+                        {this.state.edges ? (
+                            this.state.edges.map((data, index) => (
+                                <line key={`"edge"${index}`} x1={vertices[data.v].x} y1={vertices[data.v].y} x2={vertices[data.u].x} y2={vertices[data.u].y}
+                                    style={{ stroke: "grey", strokeWidth: 1, zIndex: 1 }}
+                                />
+                            ))
+                        ) : ''}
+                        {vertices ? (
+                            vertices.map((data, index) => (
                                 <>
-                                    <circle className="circle" key = {index} cx={data.x} cy={data.y} r="3" fill={data.color} />
+                                    <circle className="circle" key={`"node"${index}`} cx={data.x} cy={data.y} r="3" fill={data.color} />
                                 </>
                             ))
                         ) : ''}
