@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/gta_project/static/css/main.f5a8d916.chunk.css",
+    "main.js": "/gta_project/static/js/main.1f01dfed.chunk.js",
+    "main.js.map": "/gta_project/static/js/main.1f01dfed.chunk.js.map",
+    "runtime-main.js": "/gta_project/static/js/runtime-main.1ffb132e.js",
+    "runtime-main.js.map": "/gta_project/static/js/runtime-main.1ffb132e.js.map",
+    "static/js/2.51281433.chunk.js": "/gta_project/static/js/2.51281433.chunk.js",
+    "static/js/2.51281433.chunk.js.map": "/gta_project/static/js/2.51281433.chunk.js.map",
+    "index.html": "/gta_project/index.html",
+    "static/css/main.f5a8d916.chunk.css.map": "/gta_project/static/css/main.f5a8d916.chunk.css.map",
+    "static/js/2.51281433.chunk.js.LICENSE.txt": "/gta_project/static/js/2.51281433.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1ffb132e.js",
+    "static/js/2.51281433.chunk.js",
+    "static/css/main.f5a8d916.chunk.css",
+    "static/js/main.1f01dfed.chunk.js"
+  ]
+}
